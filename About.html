@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="shortcut icon" href="#">
+</head>
+
+<body style="background-image: linear-gradient(to right, rgba(255,0,0,0), rgb(242, 245, 144));">
+
+
+
+
+  <link href="https://vjs.zencdn.net/7.4.1/video-js.css" rel="stylesheet">
+  <video id="myPlayer" class="video-js" controls preload="auto" width="440" height="264"
+    poster="http://vjs.zencdn.net/v/oceans.png">
+    <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
+  </video>
+
+
+  <script src='https://vjs.zencdn.net/7.4.1/video.js'></script>
+  <script src="logic.js" ></script>
+  <script>
+
+    const player = videojs('myPlayer');
+    const trackingPoint = 100;
+    let totalTime = 0;
+    let tempTotalTime = 0;
+    let startTime = 0;
+
+    player.on('pause', function () {
+      totalTime += tempTotalTime;
+
+    });
+
+    player.on('play', function () {
+      startTime = player.currentTime();
+    });
+
+    player.on('timeupdate', function () {
+      if (player.paused()) {
+        return;
+      }
+      let currentTime = player.currentTime();
+      tempTotalTime = currentTime - startTime;
+      let tmptotalTime = totalTime + tempTotalTime;
+      let playbackRate = tmptotalTime / player.duration() * 100;
+
+      let percentage = Math.floor(playbackRate) + ' %';
+      console.log(percentage);
+
+      updateVideoData(percentage, totalTime)
+
+    });
+
+  </script>
+  <script src="logic.js"></script>
+</body>
+
+</html>
